@@ -1,0 +1,2 @@
+# pokedex
+DPC tanfolyam
