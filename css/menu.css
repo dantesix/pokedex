@@ -142,10 +142,18 @@ appears on the left side of the page.
     This styles the menu heading.
     */
     #menu .pure-menu-heading {
+        text-align: center;
         font-size: 110%;
         color: #fff;
         margin: 0;
-        
+    }
+
+    #menu a.pure-menu-heading,
+    #menu a.pure-menu-heading:hover,
+    #menu a.pure-menu-heading:visited,
+    #menu a.pure-menu-heading:focus
+     {
+        color: #fff;
     }
 
 /* -- Dynamic Button For Responsive Menu -------------------------------------*/
