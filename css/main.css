@@ -18,5 +18,16 @@ body {
 .pokemon-card {
 	border: 1px solid grey;
 	margin: 10px;
+	border-collapse: collapse;
+}
+
+.pokemon-card > .content-subhead {
+	line-height: 1em;
+	border-bottom: 1px solid grey;
+	margin: 0px;
+	padding: 5px;
+}
+.pokemon-card .poke-info {
+	border-right: 1px solid grey;
 	padding: 10px;
 }
