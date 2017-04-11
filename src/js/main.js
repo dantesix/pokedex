@@ -18,15 +18,27 @@
 
 var parent = document.getElementById("pokemonList");
 
-fetch('http://pokeapi.co/api/v2/pokemon/?limit=50')
+var handlePokemonDetails = function (response) {
+    return response.json();
+};
+
+fetch('http://pokeapi.co/api/v2/pokemon/?limit=5')
     .then(function (response) {
         return response.json();
     }).then(function (data) {
-        console.log(data.results instanceof Array);
-        JSON.parse(data.results).map(function (poke) {
-            addPokemon(poke);
-        });
-
+        for (var i = 0; i < data.results.length; i++) {
+            fetch(data.results[i].url).then(resp => handlePokemonDetails(resp).then(
+                function(body){
+                    console.log(body);
+                    var p = {
+                        name: body.name,
+                        sprite: body.sprites.front_default,
+                        type: body.types.map(t => t.type.name)
+                    };
+                    addPokemon(p);
+                }
+            ));
+        }
     });
 
 /*pokeList.map(function (poke) {
