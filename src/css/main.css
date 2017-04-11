@@ -16,19 +16,26 @@ body {
 }
 
 .pokemon-card > .poke-container {
-	border: 1px solid grey;
 	border-collapse: collapse;
+  box-shadow: 2px 2px 10px #888888;
+  background: #ffffd9;
 }
 
 .pokemon-card .content-subhead {
 	line-height: 1em;
-	border-bottom: 1px solid grey;
 	margin: 0px;
 	padding: 5px;
+  font-weight: bold;
+  color: #ffffff;
+  text-align: center;
+  text-transform: uppercase;
+  background: #1f8dd6;
 }
 .pokemon-card .poke-info {
-	border-right: 1px solid grey;
-	padding: 10px;
+	padding: 20px 10px 10px 10px;
+  text-align: right;
+  font-style: italic;
+  color: #111111;
 }
 
 /* Spinner */
@@ -54,7 +61,7 @@ body {
   top: 0;
   background-color: #333;
   border-radius: 100%;
-  
+
   -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
   animation: sk-bounce 2.0s infinite ease-in-out;
 }
@@ -75,10 +82,10 @@ body {
 }
 
 @keyframes sk-bounce {
-  0%, 100% { 
+  0%, 100% {
     transform: scale(0.0);
     -webkit-transform: scale(0.0);
-  } 50% { 
+  } 50% {
     transform: scale(1.0);
     -webkit-transform: scale(1.0);
   }

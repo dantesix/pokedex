@@ -41,10 +41,6 @@ fetch('http://pokeapi.co/api/v2/pokemon/?limit=5')
         }
     });
 
-/*pokeList.map(function (poke) {
-    addPokemon(poke);
-});*/
-
 // create to pokemon :)
 function addPokemon(pokemon) {
     appendCh(
