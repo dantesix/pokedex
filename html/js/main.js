@@ -16,48 +16,95 @@
             </div>
 */
 
-var parent = document.getElementById("pokemonList");
-pokeList.map(function(poke) {
-    addPokemon(poke);
-});
-
-function addPokemon (pokemon) {
-    var pokecard = createEl("div", "pokemon-card pure-u-md-1-2");
-    var pokecont = createEl("div", "poke-container");
-    pokecard.appendChild(pokecont);
-
-    var pokename = createEl("div", "content-subhead");
-    pokename.appendChild(document.createTextNode(pokemon.name));
-    pokecont.appendChild(pokename);
-
-    var innerContainer = createEl("div", "pure-g");
-    innerContainer.appendChild(getpokeinfo(pokemon.type));
-    innerContainer.appendChild(getpokethumb(pokemon.sprite));
-    pokecont.appendChild(innerContainer);
-
-    parent.appendChild(pokecard);
+String.prototype.capitalizeFirstLetter = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
 }
 
-function getpokeinfo (types) {
+var parent = document.getElementById("pokemonList");
+
+function parseJSON(response) {
+    return response.json();
+};
+
+function renderPokemon(body) {
+    console.log(body);
+    var p = {
+        name: body.name,
+        sprite: body.sprites.front_default,
+        type: body.types.map(t => t.type.name.capitalizeFirstLetter())
+    };
+    addPokemon(p);
+};
+
+fetch('https://pokeapi.co/api/v2/pokemon/?limit=10')
+    .then(parseJSON)
+    .then(function (data) {
+        data.results.forEach(function (element) {
+            fetch(element.url)
+                .then(parseJSON)
+                .then(renderPokemon);
+        });
+    });
+
+// create to pokemon :)
+function addPokemon(pokemon) {
+    appendCh(
+        parent,
+        appendCh(
+            createEl("div", "pokemon-card pure-u-md-1-2"),
+            appendCh(
+                createEl("div", "poke-container"),
+                appendCh(
+                    createEl("div", "content-subhead"),
+                    document.createTextNode(pokemon.name)
+                ),
+                appendCh(
+                    createEl("div", "pure-g"),
+                    getpokeinfo(pokemon.type),
+                    getpokethumb(pokemon.sprite)
+                )
+            )
+        )
+    );
+}
+
+// Create info part of the pokemon card
+// types: array of types of pokemon - from pokemon json
+// returns created node object
+function getpokeinfo(types) {
     var info = createEl("div", "poke-info pure-u-1-2");
     types.map(function (type) {
-        info.appendChild(document.createTextNode(type));
-        info.appendChild(createEl("br"));
+        appendCh(info, document.createTextNode(type), createEl("br"));
     });
     return info;
 }
 
-function getpokethumb (sprite) {
-    var thumb = createEl("div", "poke-thumb pure-u-1-2");
-    var img = createEl("img", "pure-img-responsive");
-    img.src = sprite;
-    thumb.appendChild(img);
-    return thumb;
+// Creates the thumbnail container and the img
+// sprite: a jsonbol a sprite erteke, ami a kep cime
+// returns created node object
+function getpokethumb(sprite) {
+    return appendCh(createEl("div", "poke-thumb pure-u-1-2"), createEl("img", "pure-img-responsive", sprite));
 }
 
-function createEl (elname, cl) {
+// createElement - fujj, hogy beleegetett szar cl meg src....de most jo ide
+// elname: tag name
+// cl: className attribute
+// src: src attribute
+// returns the created node object
+function createEl(elname, cl, src) {
     var el = document.createElement(elname);
     if (cl) el.className = cl;
+    if (src) el.src = src;
     return el;
 }
 
+// appendChild - ez sem a legszebb
+// p: a parent, ahova kell passzintani, sajnos elhiszem, hogy lesz ilyen
+// arguments[1-...]: ezeket ebben a sorrendben appendchildolja
+// returns the parent node object
+function appendCh(p) {
+    for (var i = 1; i < arguments.length; i++) {
+        p.appendChild(arguments[i]);
+    }
+    return p;
+}
