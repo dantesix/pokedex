@@ -17,12 +17,24 @@
 */
 
 var parent = document.getElementById("pokemonList");
-pokeList.map(function(poke) {
+
+fetch('http://pokeapi.co/api/v2/pokemon/?limit=50')
+    .then(function (response) {
+        return response.json();
+    }).then(function (data) {
+        console.log(data.results instanceof Array);
+        JSON.parse(data.results).map(function (poke) {
+            addPokemon(poke);
+        });
+
+    });
+
+/*pokeList.map(function (poke) {
     addPokemon(poke);
-});
+});*/
 
 // create to pokemon :)
-function addPokemon (pokemon) {
+function addPokemon(pokemon) {
     appendCh(
         parent,
         appendCh(
@@ -46,7 +58,7 @@ function addPokemon (pokemon) {
 // Create info part of the pokemon card
 // types: array of types of pokemon - from pokemon json
 // returns created node object
-function getpokeinfo (types) {
+function getpokeinfo(types) {
     var info = createEl("div", "poke-info pure-u-1-2");
     types.map(function (type) {
         appendCh(info, document.createTextNode(type), createEl("br"));
@@ -57,7 +69,7 @@ function getpokeinfo (types) {
 // Creates the thumbnail container and the img
 // sprite: a jsonbol a sprite erteke, ami a kep cime
 // returns created node object
-function getpokethumb (sprite) {
+function getpokethumb(sprite) {
     return appendCh(createEl("div", "poke-thumb pure-u-1-2"), createEl("img", "pure-img-responsive", sprite));
 }
 
@@ -66,7 +78,7 @@ function getpokethumb (sprite) {
 // cl: className attribute
 // src: src attribute
 // returns the created node object
-function createEl (elname, cl, src) {
+function createEl(elname, cl, src) {
     var el = document.createElement(elname);
     if (cl) el.className = cl;
     if (src) el.src = src;
@@ -77,7 +89,7 @@ function createEl (elname, cl, src) {
 // p: a parent, ahova kell passzintani, sajnos elhiszem, hogy lesz ilyen
 // arguments[1-...]: ezeket ebben a sorrendben appendchildolja
 // returns the parent node object
-function appendCh (p) {
+function appendCh(p) {
     for (var i = 1; i < arguments.length; i++) {
         p.appendChild(arguments[i]);
     }
