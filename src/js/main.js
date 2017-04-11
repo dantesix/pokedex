@@ -36,10 +36,9 @@ function renderPokemon(body) {
     addPokemon(p);
 };
 
-fetch('https://pokeapi.co/api/v2/pokemon/?limit=5')
+fetch('https://pokeapi.co/api/v2/pokemon/?limit=10')
     .then(parseJSON)
     .then(function (data) {
-        console.log(data.results);
         data.results.forEach(function (element) {
             fetch(element.url)
                 .then(parseJSON)
