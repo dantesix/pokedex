@@ -23,6 +23,10 @@ body {
   min-width: 320px;
 }
 
+.pokemon-card > .poke-container:hover {
+  background: #cccccc;
+}
+
 .pokemon-card .content-subhead {
 	line-height: 1em;
 	margin: 0px;

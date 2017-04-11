@@ -16,6 +16,23 @@
             </div>
 */
 
+var searchField = document.getElementById("searchField");
+searchField.addEventListener("input", function(event) {
+    var filteredPoke = pokemons.filter(function(poke) {
+        return poke.name.startsWith(event.target.value);
+    });
+    parent.innerHTML = " ";
+    render(filteredPoke);
+});
+
+function render(filteredPoke) {
+    for (var i = filteredPoke.length - 1; i >= 0; i--) {
+        addPokemon(filteredPoke[i]);
+    }
+}
+
+var pokemons = [];
+
 String.prototype.capitalizeFirstLetter = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 }
@@ -34,6 +51,7 @@ function renderPokemon(body) {
         type: body.types.map(t => t.type.name.capitalizeFirstLetter())
     };
     addPokemon(p);
+    pokemons.push(p);
 };
 
 fetch('https://pokeapi.co/api/v2/pokemon/?limit=10')
