@@ -32,7 +32,7 @@ function renderPokemon(body) {
     addPokemon(p);
 };
 
-fetch('http://pokeapi.co/api/v2/pokemon/?limit=5')
+fetch('https://pokeapi.co/api/v2/pokemon/?limit=5')
     .then(parseJSON)
     .then(function (data) {
         console.log(data.results);
