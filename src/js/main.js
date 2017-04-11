@@ -16,6 +16,10 @@
             </div>
 */
 
+String.prototype.capitalizeFirstLetter = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+}
+
 var parent = document.getElementById("pokemonList");
 
 function parseJSON(response) {
@@ -27,7 +31,7 @@ function renderPokemon(body) {
     var p = {
         name: body.name,
         sprite: body.sprites.front_default,
-        type: body.types.map(t => t.type.name)
+        type: body.types.map(t => t.type.name.capitalizeFirstLetter())
     };
     addPokemon(p);
 };
