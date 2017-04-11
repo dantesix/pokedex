@@ -47,6 +47,7 @@ function getpokeinfo (types) {
     info.className = "poke-info pure-u-1-2";
     types.map(function (type) {
         info.appendChild(document.createTextNode(type));
+        info.appendChild(document.createElement("br"));
     });
     return info;
 }
