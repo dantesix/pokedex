@@ -22,19 +22,15 @@ pokeList.map(function(poke) {
 });
 
 function addPokemon (pokemon) {
-    var pokecard = document.createElement("div");
-    pokecard.className = "pokemon-card pure-u-md-1-2";
-    var pokecont = document.createElement("div");
-    pokecont.className = "poke-container";
+    var pokecard = createEl("div", "pokemon-card pure-u-md-1-2");
+    var pokecont = createEl("div", "poke-container");
     pokecard.appendChild(pokecont);
 
-    var pokename = document.createElement("div");
-    pokename.className = "content-subhead";
+    var pokename = createEl("div", "content-subhead");
     pokename.appendChild(document.createTextNode(pokemon.name));
     pokecont.appendChild(pokename);
 
-    var innerContainer = document.createElement("div");
-    innerContainer.className = "pure-g";
+    var innerContainer = createEl("div", "pure-g");
     innerContainer.appendChild(getpokeinfo(pokemon.type));
     innerContainer.appendChild(getpokethumb(pokemon.sprite));
     pokecont.appendChild(innerContainer);
@@ -43,21 +39,25 @@ function addPokemon (pokemon) {
 }
 
 function getpokeinfo (types) {
-    var info = document.createElement("div");
-    info.className = "poke-info pure-u-1-2";
+    var info = createEl("div", "poke-info pure-u-1-2");
     types.map(function (type) {
         info.appendChild(document.createTextNode(type));
-        info.appendChild(document.createElement("br"));
+        info.appendChild(createEl("br"));
     });
     return info;
 }
 
 function getpokethumb (sprite) {
-    var thumb = document.createElement("div");
-    thumb.className = "poke-thumb pure-u-1-2";
-    var img = document.createElement("img");
-    img.className = "pure-img-responsive";
+    var thumb = createEl("div", "poke-thumb pure-u-1-2");
+    var img = createEl("img", "pure-img-responsive");
     img.src = sprite;
     thumb.appendChild(img);
     return thumb;
 }
+
+function createEl (elname, cl) {
+    var el = document.createElement(elname);
+    if (cl) el.className = cl;
+    return el;
+}
+
