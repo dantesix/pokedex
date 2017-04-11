@@ -36,11 +36,11 @@ fetch('http://pokeapi.co/api/v2/pokemon/?limit=5')
     .then(parseJSON)
     .then(function (data) {
         console.log(data.results);
-        for (var i = 0; i < data.results.length; i++) {
-            fetch(data.results[i].url)
+        data.results.forEach(function (element) {
+            fetch(element.url)
                 .then(parseJSON)
                 .then(renderPokemon);
-        }
+        });
     });
 
 // create to pokemon :)
