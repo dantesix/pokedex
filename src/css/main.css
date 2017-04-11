@@ -44,6 +44,31 @@ body {
   color: #111111;
 }
 
+.search-field {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  width: 100%;
+  position: relative;
+}
+
+.search-field input {
+  width: 100%;
+  padding: 5px 10px;
+  outline: none;
+}
+
+.search-field span {
+  position: absolute;
+  top: 2px;
+  right: 40px;
+}
+
+.search-field span::after {
+  font-family: "FontAwesome";
+  content: '\f002';
+}
+
+
 /* Spinner */
 #pokemonList .spinner {
 	display: none;
