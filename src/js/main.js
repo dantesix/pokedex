@@ -18,26 +18,28 @@
 
 var parent = document.getElementById("pokemonList");
 
-var handlePokemonDetails = function (response) {
+function parseJSON(response) {
     return response.json();
 };
 
+function renderPokemon(body) {
+    console.log(body);
+    var p = {
+        name: body.name,
+        sprite: body.sprites.front_default,
+        type: body.types.map(t => t.type.name)
+    };
+    addPokemon(p);
+};
+
 fetch('http://pokeapi.co/api/v2/pokemon/?limit=5')
-    .then(function (response) {
-        return response.json();
-    }).then(function (data) {
+    .then(parseJSON)
+    .then(function (data) {
+        console.log(data.results);
         for (var i = 0; i < data.results.length; i++) {
-            fetch(data.results[i].url).then(resp => handlePokemonDetails(resp).then(
-                function(body){
-                    console.log(body);
-                    var p = {
-                        name: body.name,
-                        sprite: body.sprites.front_default,
-                        type: body.types.map(t => t.type.name)
-                    };
-                    addPokemon(p);
-                }
-            ));
+            fetch(data.results[i].url)
+                .then(parseJSON)
+                .then(renderPokemon);
         }
     });
 
