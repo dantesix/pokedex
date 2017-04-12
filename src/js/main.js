@@ -87,7 +87,7 @@ function parseJSON(response) {
     pokeDex.default = {
         pageSize: 10 // how many pokemons on one page
     };
-    
+
     // Rendering :)
     pokeDex.render = {};
 
@@ -176,7 +176,7 @@ function parseJSON(response) {
             return p;
         }
     };
-    
+
 }(window.pokeDex = window.pokeDex || {}));
 
 pokeDex.getInitialData();
