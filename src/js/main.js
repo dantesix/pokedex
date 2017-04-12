@@ -93,7 +93,6 @@ function parseJSON(response) {
         pageSize: 10 // how many pokemons on one page
     };
 
-<<<<<<< HEAD
     //details view and it's children
     pokeDex.details = {};
     pokeDex.details.detailsView = document.getElementById("pokemon-details");
@@ -139,9 +138,7 @@ function parseJSON(response) {
             detailsBackground.classList.remove("fadein");
         }
     }
-    
-=======
->>>>>>> 7b77bb93ae3543f85194e900fbea383d52a497a8
+
     pokeDex.assignPagerEvents = function () {
         document.getElementById("nextPage").addEventListener("click", pokeDex.nextPage);
         document.getElementById("prevPage").addEventListener("click", pokeDex.prevPage);
