@@ -1,39 +1,40 @@
-/*
-            <div class="pokemon-card pure-u-md-1-2">
-                <div class="poke-container">
-                    <div class="content-subhead">
-                        Bulbu
-                    </div>
-                    <div class="pure-g">
-                        <div class="poke-info pure-u-1-2">
-                            ez egy bulbu
-                        </div>
-                        <div class="poke-thumb pure-u-1-2">
-                            <img class="pure-img-responsive" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png">
-                        </div>
-                    </div>
-                </div>
-            </div>
-*/
+var searchField = document.getElementById("searchField");
+var pokemons = [];
+var parent = document.getElementById("pokemonList");
+var filteredPoke = [];
 
-String.prototype.capitalizeFirstLetter = function() {
-    return this.charAt(0).toUpperCase() + this.slice(1);
+
+searchField.addEventListener("input", function (event) {
+    render();
+});
+
+function render() {
+    filteredPoke = pokemons.filter(function (poke) {
+        return poke.name.startsWith(searchField.value);
+    });
+    parent.innerHTML = "";
+    for (var i = filteredPoke.length - 1; i >= 0; i--) {
+        addPokemon(filteredPoke[i]);
+    }
 }
 
-var parent = document.getElementById("pokemonList");
+String.prototype.capitalizeFirstLetter = function () {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+}
 
 function parseJSON(response) {
     return response.json();
 };
 
-function renderPokemon(body) {
+function createPokemon(body) {
     console.log(body);
     var p = {
         name: body.name,
         sprite: body.sprites.front_default,
         type: body.types.map(t => t.type.name.capitalizeFirstLetter())
     };
-    addPokemon(p);
+    pokemons.push(p);
+    render();
 };
 
 fetch('https://pokeapi.co/api/v2/pokemon/?limit=10')
@@ -42,7 +43,7 @@ fetch('https://pokeapi.co/api/v2/pokemon/?limit=10')
         data.results.forEach(function (element) {
             fetch(element.url)
                 .then(parseJSON)
-                .then(renderPokemon);
+                .then(createPokemon);
         });
     });
 

@@ -23,6 +23,10 @@ body {
   min-width: 320px;
 }
 
+.pokemon-card > .poke-container:hover {
+  background: #cccccc;
+}
+
 .pokemon-card .content-subhead {
 	line-height: 1em;
 	margin: 0px;
@@ -39,6 +43,31 @@ body {
   font-style: italic;
   color: #111111;
 }
+
+.search-field {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  width: 100%;
+  position: relative;
+}
+
+.search-field input {
+  width: 100%;
+  padding: 5px 10px;
+  outline: none;
+}
+
+.search-field span {
+  position: absolute;
+  top: 2px;
+  right: 40px;
+}
+
+.search-field span::after {
+  font-family: "FontAwesome";
+  content: '\f002';
+}
+
 
 /* Spinner */
 #pokemonList .spinner {
@@ -91,4 +120,11 @@ body {
     transform: scale(1.0);
     -webkit-transform: scale(1.0);
   }
+}
+
+/* spinner end*/
+
+#pokemonList:empty:before {
+	content: "No result, are you sure you didn't made a typo?";
+	letter-spacing: .3em;
 }
