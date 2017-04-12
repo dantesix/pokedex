@@ -147,8 +147,8 @@ function parseJSON(response) {
         // Creates the thumbnail container and the img
         // sprite: a jsonbol a sprite erteke, ami a kep cime
         // returns created node object
-        function getpokethumb(id) {
-            return appendCh(createEl("div", {className: "poke-thumb pure-u-1-2 " + (pokemon.types[1] || pokemon.types[0])}), createEl("img", {className: "pure-img-responsive", src: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + id + ".png"}));
+        function getpokethumb() {
+            return appendCh(createEl("div", {className: "poke-thumb pure-u-1-2 " + (pokemon.types[1] || pokemon.types[0])}), createEl("img", {className: "pure-img-responsive", src: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + pokemon.id + ".png"}));
         }
 
         // createElement - fujj, hogy beleegetett szar cl meg src....de most jo ide
