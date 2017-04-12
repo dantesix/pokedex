@@ -44,85 +44,6 @@ body {
   color: #111111;
 }
 
-.search-field {
-  margin-top: 20px;
-  margin-bottom: 10px;
-  width: 100%;
-  position: relative;
-}
-
-.search-field input {
-  width: 100%;
-  padding: 5px 10px;
-  outline: none;
-}
-
-.search-field span {
-  position: absolute;
-  top: 2px;
-  right: 40px;
-}
-
-.search-field span::after {
-  font-family: "FontAwesome";
-  content: '\f002';
-}
-
-
-/* Spinner */
-#pokemonList .spinner {
-	display: none;
-}
-#pokemonList .spinner:only-child {
-  margin: 100px auto;
-  width: 40px;
-  height: 40px;
-  position: relative;
-  text-align: center;
-  display: block;
-  -webkit-animation: sk-rotate 2.0s infinite linear;
-  animation: sk-rotate 2.0s infinite linear;
-}
-
-.dot1, .dot2 {
-  width: 60%;
-  height: 60%;
-  display: inline-block;
-  position: absolute;
-  top: 0;
-  background-color: #333;
-  border-radius: 100%;
-
-  -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
-  animation: sk-bounce 2.0s infinite ease-in-out;
-}
-
-.dot2 {
-  top: auto;
-  bottom: 0;
-  -webkit-animation-delay: -1.0s;
-  animation-delay: -1.0s;
-}
-
-@-webkit-keyframes sk-rotate { 100% { -webkit-transform: rotate(360deg) }}
-@keyframes sk-rotate { 100% { transform: rotate(360deg); -webkit-transform: rotate(360deg) }}
-
-@-webkit-keyframes sk-bounce {
-  0%, 100% { -webkit-transform: scale(0.0) }
-  50% { -webkit-transform: scale(1.0) }
-}
-
-@keyframes sk-bounce {
-  0%, 100% {
-    transform: scale(0.0);
-    -webkit-transform: scale(0.0);
-  } 50% {
-    transform: scale(1.0);
-    -webkit-transform: scale(1.0);
-  }
-}
-
-/* spinner end*/
 
 #pokemonList:empty:before {
 	content: "No result, are you sure you didn't made a typo?";
@@ -131,15 +52,20 @@ body {
 
 .pokemon-details {
   position: fixed;
+  padding: 20px;
   width: 400px;
   height: 500px;
   margin-left: -200px;
   margin-top: -250px;
   top: 50%;
   left: 50%;
-  background-color: red;
-  word-wrap: break-word;
+  color: white;
+  background-color: #1f8dd6;
   transition: top 1s ease-in-out;
+}
+
+.pokemon-details-details {
+  margin-bottom: 20px;
 }
 
 .pokemon-details-background {
