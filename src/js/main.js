@@ -10,6 +10,11 @@ function parseJSON(response) {
 
 (function (pd) {
 
+    pokeDex.init = function () {
+        pokeDex.getInitialData();
+        pokeDex.assignPagerEvents();
+    };
+
     pokeDex.getInitialData = function () {
         fetch('https://pokeapi.co/api/v2/type/')
             .then(parseJSON)
@@ -88,6 +93,13 @@ function parseJSON(response) {
         pageSize: 10 // how many pokemons on one page
     };
 
+    pokeDex.assignPagerEvents = function () {
+        document.getElementById("nextPage").addEventListener("click", pokeDex.nextPage);
+        document.getElementById("prevPage").addEventListener("click", pokeDex.prevPage);
+        document.getElementById("firstPage").addEventListener("click", pokeDex.firstPage);
+        document.getElementById("lastPage").addEventListener("click", pokeDex.lastPage);
+    };
+
     // Rendering :)
     pokeDex.render = {};
 
@@ -95,7 +107,31 @@ function parseJSON(response) {
     pokeDex.render.init = function (filteredList) {
         pokeDex.currentPokemonList = filteredList || Object.keys(pokeDex.pokemonList).map(key => pokeDex.pokemonList[key]);
         pokeDex.render.pageSize = pokeDex.default.pageSize;
-        pokeDex.render.currentPage = 1;
+        pokeDex.render.currentPage = 0;
+        pokeDex.render.drawPage();
+    };
+
+    pokeDex.render.nextPage = function () {
+        var nextPage = pokeDex.render.currentPage + 1;
+        if (pokeDex.currentPokemonList.length - nextPage * pokeDex.render.pageSize < 0) return;
+        pokeDex.render.currentPage = nextPage;
+        pokeDex.render.drawPage();
+    };
+
+    pokeDex.render.prevPage = function () {
+        var nextPage = pokeDex.render.currentPage -1;
+        if (nextPage < 0) return;
+        pokeDex.render.currentPage = nextPage;
+        pokeDex.render.drawPage();
+    };
+
+    pokeDex.render.firstPage = function () {
+        pokeDex.render.currentPage = 0;
+        pokeDex.render.drawPage();
+    };
+
+    pokeDex.render.lastPage = function () {
+        pokeDex.render.currentPage = Math.floor(pokeDex.currentPokemonList.length/pokeDex.render.pageSize);
         pokeDex.render.drawPage();
     };
 
@@ -106,8 +142,8 @@ function parseJSON(response) {
         }
 
         for (var i = 0; i < pokeDex.render.pageSize; i++) {
-            var index = pokeDex.render.pageSize * (pokeDex.render.currentPage - 1) + i;
-            pokeDex.render.drawPokemon(pokeDex.currentPokemonList[index], container);
+            var index = pokeDex.render.pageSize * pokeDex.render.currentPage + i;
+            if (index < pokeDex.currentPokemonList.length) pokeDex.render.drawPokemon(pokeDex.currentPokemonList[index], container);
         }
     };
 
