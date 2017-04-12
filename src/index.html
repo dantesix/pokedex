@@ -8,6 +8,8 @@
 
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/menu.css">
+    <link rel="stylesheet" href="css/search.css">
+    <link rel="stylesheet" href="css/spinner.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.2/build/base-min.css">
     <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.2/build/grids-min.css">
@@ -58,9 +60,27 @@
             </div>
 
             <div class="content search-field">
-                <input id="searchField" type="text" placeholder="Keresési szöveg">
-                <span></span>
-                </input>
+                <div class="search">
+                  <input id="searchField" type="text" placeholder="Keresés...">
+                  <input type="checkbox" id="toggle" class="toggle"><label for="toggle" class="search-icon"></label>
+                    <div class="filters">
+                      <div class="pure-g">
+                        <div class="pure-u-1-2">
+                          <input type="checkbox" id="checkbox" name=""><label for="checkbox">asd</label></input>
+                        </div>
+                        <div class="pure-u-1-2">
+                          <input type="checkbox" id="checkbox" name=""><label for="checkbox">asd</label></input>
+                        </div>
+                        <div class="pure-u-1-2">
+                          <input type="checkbox" id="checkbox" name=""><label for="checkbox">asd</label></input>
+                        </div>
+                        <div class="pure-u-1-2">
+                          <input type="checkbox" id="checkbox" name=""><label for="checkbox">asd</label></input>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+
             </div>
 
             <div id="pokemonList" class="content pure-g">
@@ -91,6 +111,7 @@
     <script src="js/pokemon.js"></script>
     <script src="js/main.js"></script>
     <script src="js/details.js"></script>
+    <script src="js/filtering.js"></script>
 </body>
 
 </html>
