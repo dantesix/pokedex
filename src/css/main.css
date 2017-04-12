@@ -131,15 +131,20 @@ body {
 
 .pokemon-details {
   position: fixed;
+  padding: 20px;
   width: 400px;
   height: 500px;
   margin-left: -200px;
   margin-top: -250px;
   top: 50%;
   left: 50%;
-  background-color: red;
-  word-wrap: break-word;
+  color: white;
+  background-color: #1f8dd6;
   transition: top 1s ease-in-out;
+}
+
+.pokemon-details-details {
+  margin-bottom: 20px;
 }
 
 .pokemon-details-background {
