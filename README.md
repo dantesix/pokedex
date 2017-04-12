@@ -1,5 +1,4 @@
 # pokedex
 DPC tanfolyam
 
-teszt
-Teszt 2 - Nódi
+Ezt a csodálatos pokedex oldalt, Attilának készítettük, hogy rendszerezni tudja a pokemonjait ;)
