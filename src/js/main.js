@@ -8,6 +8,8 @@ searchField.addEventListener("input", function (event) {
     render();
 });
 
+
+// comment, hogy legyen mit kommitolni
 function render() {
     filteredPoke = pokemons.filter(function (poke) {
         return poke.name.startsWith(searchField.value);
