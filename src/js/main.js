@@ -12,7 +12,7 @@ function render() {
     filteredPoke = pokemons.filter(function (poke) {
         return poke.name.startsWith(searchField.value);
     });
-    parent.innerHTML = " ";
+    parent.innerHTML = "";
     for (var i = filteredPoke.length - 1; i >= 0; i--) {
         addPokemon(filteredPoke[i]);
     }

@@ -121,3 +121,10 @@ body {
     -webkit-transform: scale(1.0);
   }
 }
+
+/* spinner end*/
+
+#pokemonList:empty:before {
+	content: "No result, are you sure you didn't made a typo?";
+	letter-spacing: .3em;
+}
