@@ -90,9 +90,9 @@ function parseJSON(response) {
     
     // Rendering :)
     pokeDex.render = {};
-    pokeDex.render.currentPage;
+
+    // filteredList: array from pokemonList
     pokeDex.render.init = function (filteredList) {
-        console.log("init");
         pokeDex.currentPokemonList = filteredList || Object.keys(pokeDex.pokemonList).map(key => pokeDex.pokemonList[key]);
         pokeDex.render.pageSize = pokeDex.default.pageSize;
         pokeDex.render.currentPage = 1;
@@ -113,11 +113,11 @@ function parseJSON(response) {
 
     pokeDex.render.drawPokemon = function (pokemon, container) {
         // This should be rewriten, but im lazy as fuck
-        //console.log(pokemon, container);
+
         appendCh(
             container,
             appendCh(
-                createEl("div", {className: "pokemon-card pure-u-md-1-2", pokemonId: pokemon.id}),
+                createEl("div", {className: "pokemon-card pure-u-md-1-2 ", pokemonId: pokemon.id}),
                 appendCh(
                     createEl("div", {className: "poke-container"}),
                     appendCh(
@@ -126,8 +126,8 @@ function parseJSON(response) {
                     ),
                     appendCh(
                         createEl("div", {className: "pure-g"}),
-                        getpokeinfo(pokemon.types),
-                        getpokethumb(pokemon.id)
+                        getpokethumb(),
+                        getpokeinfo()
                     )
                 )
             )
@@ -136,9 +136,9 @@ function parseJSON(response) {
         // Create info part of the pokemon card
         // types: array of types of pokemon - from pokemon json
         // returns created node object
-        function getpokeinfo(types) {
-            var info = createEl("div", {className: "poke-info pure-u-1-2"});
-            types.map(function (type) {
+        function getpokeinfo() {
+            var info = createEl("div", {className: "poke-info pure-u-1-2 " + pokemon.types[0]});
+            pokemon.types.map(function (type) {
                 appendCh(info, document.createTextNode(type), createEl("br"));
             });
             return info;
@@ -148,7 +148,7 @@ function parseJSON(response) {
         // sprite: a jsonbol a sprite erteke, ami a kep cime
         // returns created node object
         function getpokethumb(id) {
-            return appendCh(createEl("div", {className: "poke-thumb pure-u-1-2"}), createEl("img", {className: "pure-img-responsive", src: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + id + ".png"}));
+            return appendCh(createEl("div", {className: "poke-thumb pure-u-1-2 " + (pokemon.types[1] || pokemon.types[0])}), createEl("img", {className: "pure-img-responsive", src: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + id + ".png"}));
         }
 
         // createElement - fujj, hogy beleegetett szar cl meg src....de most jo ide
