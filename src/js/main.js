@@ -121,7 +121,7 @@ function parseJSON(response) {
 
         for (var i = 0; i < pokeDex.render.pageSize; i++) {
             var index = pokeDex.render.pageSize * pokeDex.render.currentPage + i;
-            if (index < pokeDex.currentPokemonList) pokeDex.render.drawPokemon(pokeDex.currentPokemonList[index], container);
+            if (index < pokeDex.currentPokemonList.length) pokeDex.render.drawPokemon(pokeDex.currentPokemonList[index], container);
         }
     };
 
