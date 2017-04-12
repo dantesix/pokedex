@@ -15,8 +15,8 @@ function parseJSON(response) {
             .then(parseJSON)
             .then(function (data) {
                 var typeLoadDone = data.results.map((pokemonType) => {
-                        return new Promise((resolve) => {
-                            fetch(pokemonType.url)
+                    return new Promise((resolve) => {
+                        fetch(pokemonType.url)
                             .then(parseJSON)
                             .then(function (type) {
                                 pokeDex.addType(type);
@@ -24,7 +24,7 @@ function parseJSON(response) {
                             .then(resolve);
                     });
                 });
-                Promise.all(typeLoadDone).then(function () {pokeDex.render.init()});
+                Promise.all(typeLoadDone).then(function () { pokeDex.render.init() });
             });
     };
 
@@ -56,7 +56,7 @@ function parseJSON(response) {
 
     // Parse pokemon type
     // ptype: response from api/v2/type/XXX
-    pokeDex.addType =  function (ptype, resolve) {
+    pokeDex.addType = function (ptype, resolve) {
         // Get preferred language name
         var _getName = function (names, language) {
             var lang = language || "en";
@@ -80,14 +80,60 @@ function parseJSON(response) {
             });
         });
 
-        pokeDex.typeList.push({name: typeName, id: ptype.id});
+        pokeDex.typeList.push({ name: typeName, id: ptype.id });
     };
 
     // Default values
     pokeDex.default = {
         pageSize: 10 // how many pokemons on one page
     };
-    
+
+    //details view and it's children
+    pokeDex.details = {};
+    pokeDex.details.detailsView = document.getElementById("pokemon-details");
+    pokeDex.details.detailsName = document.getElementById("pokemonDetailsName");
+    pokeDex.details.detailsContent = document.getElementById("pokemonDetailsContent");
+    pokeDex.details.detailsImage = document.getElementById("pokemonDetailsImage");
+
+
+    var detailsBackground = document.getElementById("pokemonDetailsBackground");
+    detailsBackground.addEventListener("click", changeDetailsVisibility);
+
+
+    //update the content of the details view
+    function updateDetails(details) {
+        pokeDex.details.detailsName.innerText = details.name.capitalizeFirstLetter();
+        pokeDex.details.detailsContent.innerHTML =
+            `Súly: ${details.weight}<br/>Magasság: ${details.height}<br/>`;
+        pokeDex.details.detailsImage.src = details.sprites.front_default;
+    }
+
+    //download and show details
+    function handlePokemonClick(event) {
+        pokeDex.details.detailsName.innerText = "Betöltés...";
+        pokeDex.details.detailsContent.innerHTML = "";
+        pokeDex.details.detailsImage.src = "";
+
+        changeDetailsVisibility();
+
+        var id = event.currentTarget.getAttribute("data-pokemon-id");
+        fetch("https://pokeapi.co/api/v2/pokemon/" + id)
+            .then(parseJSON)
+            .then(updateDetails);
+    }
+
+    //change the visibility of the details dialog
+    function changeDetailsVisibility() {
+        if (pokeDex.details.detailsView.style.top === "150%") {
+            pokeDex.details.detailsView.style.top = "50%";
+            detailsBackground.classList.add("fadein");
+
+        } else {
+            pokeDex.details.detailsView.style.top = "150%";
+            detailsBackground.classList.remove("fadein");
+        }
+    }
+
     // Rendering :)
     pokeDex.render = {};
     pokeDex.render.currentPage;
@@ -114,30 +160,30 @@ function parseJSON(response) {
     pokeDex.render.drawPokemon = function (pokemon, container) {
         // This should be rewriten, but im lazy as fuck
         //console.log(pokemon, container);
-        appendCh(
-            container,
+        var childElement = appendCh(
+            createEl("div", { className: "pokemon-card pure-u-md-1-2", pokemonId: pokemon.id }),
             appendCh(
-                createEl("div", {className: "pokemon-card pure-u-md-1-2", pokemonId: pokemon.id}),
+                createEl("div", { className: "poke-container" }),
                 appendCh(
-                    createEl("div", {className: "poke-container"}),
-                    appendCh(
-                        createEl("div", {className: "content-subhead"}),
-                        document.createTextNode(pokemon.name)
-                    ),
-                    appendCh(
-                        createEl("div", {className: "pure-g"}),
-                        getpokeinfo(pokemon.types),
-                        getpokethumb(pokemon.id)
-                    )
+                    createEl("div", { className: "content-subhead" }),
+                    document.createTextNode(pokemon.name)
+                ),
+                appendCh(
+                    createEl("div", { className: "pure-g" }),
+                    getpokeinfo(pokemon.types),
+                    getpokethumb(pokemon.id)
                 )
             )
         );
+        appendCh(container, childElement);
+
+        childElement.addEventListener("click", handlePokemonClick);
 
         // Create info part of the pokemon card
         // types: array of types of pokemon - from pokemon json
         // returns created node object
         function getpokeinfo(types) {
-            var info = createEl("div", {className: "poke-info pure-u-1-2"});
+            var info = createEl("div", { className: "poke-info pure-u-1-2" });
             types.map(function (type) {
                 appendCh(info, document.createTextNode(type), createEl("br"));
             });
@@ -148,7 +194,7 @@ function parseJSON(response) {
         // sprite: a jsonbol a sprite erteke, ami a kep cime
         // returns created node object
         function getpokethumb(id) {
-            return appendCh(createEl("div", {className: "poke-thumb pure-u-1-2"}), createEl("img", {className: "pure-img-responsive", src: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + id + ".png"}));
+            return appendCh(createEl("div", { className: "poke-thumb pure-u-1-2" }), createEl("img", { className: "pure-img-responsive", src: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + id + ".png" }));
         }
 
         // createElement - fujj, hogy beleegetett szar cl meg src....de most jo ide
@@ -161,7 +207,7 @@ function parseJSON(response) {
             var el = document.createElement(elname);
             if (options.className) el.className = options.className;
             if (options.src) el.src = options.src;
-            if (options.pokemonId)  el.setAttribute("data-pokemon-id", options.pokemonId);
+            if (options.pokemonId) el.setAttribute("data-pokemon-id", options.pokemonId);
             return el;
         }
 
@@ -176,7 +222,7 @@ function parseJSON(response) {
             return p;
         }
     };
-    
+
 }(window.pokeDex = window.pokeDex || {}));
 
 pokeDex.getInitialData();
