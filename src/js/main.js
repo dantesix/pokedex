@@ -10,6 +10,11 @@ function parseJSON(response) {
 
 (function (pd) {
 
+    pokeDex.init = function () {
+        pokeDex.getInitialData();
+        pokeDex.assignPagerEvents();
+    };
+
     pokeDex.getInitialData = function () {
         fetch('https://pokeapi.co/api/v2/type/')
             .then(parseJSON)
@@ -133,15 +138,46 @@ function parseJSON(response) {
             detailsBackground.classList.remove("fadein");
         }
     }
+    
+    pokeDex.assignPagerEvents = function () {
+        document.getElementById("nextPage").addEventListener("click", pokeDex.nextPage);
+        document.getElementById("prevPage").addEventListener("click", pokeDex.prevPage);
+        document.getElementById("firstPage").addEventListener("click", pokeDex.firstPage);
+        document.getElementById("lastPage").addEventListener("click", pokeDex.lastPage);
+    };
 
     // Rendering :)
     pokeDex.render = {};
-    pokeDex.render.currentPage;
+
+    // filteredList: array from pokemonList
     pokeDex.render.init = function (filteredList) {
-        console.log("init");
         pokeDex.currentPokemonList = filteredList || Object.keys(pokeDex.pokemonList).map(key => pokeDex.pokemonList[key]);
         pokeDex.render.pageSize = pokeDex.default.pageSize;
-        pokeDex.render.currentPage = 1;
+        pokeDex.render.currentPage = 0;
+        pokeDex.render.drawPage();
+    };
+
+    pokeDex.render.nextPage = function () {
+        var nextPage = pokeDex.render.currentPage + 1;
+        if (pokeDex.currentPokemonList.length - nextPage * pokeDex.render.pageSize < 0) return;
+        pokeDex.render.currentPage = nextPage;
+        pokeDex.render.drawPage();
+    };
+
+    pokeDex.render.prevPage = function () {
+        var nextPage = pokeDex.render.currentPage -1;
+        if (nextPage < 0) return;
+        pokeDex.render.currentPage = nextPage;
+        pokeDex.render.drawPage();
+    };
+
+    pokeDex.render.firstPage = function () {
+        pokeDex.render.currentPage = 0;
+        pokeDex.render.drawPage();
+    };
+
+    pokeDex.render.lastPage = function () {
+        pokeDex.render.currentPage = Math.floor(pokeDex.currentPokemonList.length/pokeDex.render.pageSize);
         pokeDex.render.drawPage();
     };
 
@@ -152,8 +188,8 @@ function parseJSON(response) {
         }
 
         for (var i = 0; i < pokeDex.render.pageSize; i++) {
-            var index = pokeDex.render.pageSize * (pokeDex.render.currentPage - 1) + i;
-            pokeDex.render.drawPokemon(pokeDex.currentPokemonList[index], container);
+            var index = pokeDex.render.pageSize * pokeDex.render.currentPage + i;
+            if (index < pokeDex.currentPokemonList.length) pokeDex.render.drawPokemon(pokeDex.currentPokemonList[index], container);
         }
     };
 
@@ -182,9 +218,9 @@ function parseJSON(response) {
         // Create info part of the pokemon card
         // types: array of types of pokemon - from pokemon json
         // returns created node object
-        function getpokeinfo(types) {
-            var info = createEl("div", { className: "poke-info pure-u-1-2" });
-            types.map(function (type) {
+        function getpokeinfo() {
+            var info = createEl("div", {className: "poke-info pure-u-1-2 " + pokemon.types[0]});
+            pokemon.types.map(function (type) {
                 appendCh(info, document.createTextNode(type), createEl("br"));
             });
             return info;
@@ -193,8 +229,8 @@ function parseJSON(response) {
         // Creates the thumbnail container and the img
         // sprite: a jsonbol a sprite erteke, ami a kep cime
         // returns created node object
-        function getpokethumb(id) {
-            return appendCh(createEl("div", { className: "poke-thumb pure-u-1-2" }), createEl("img", { className: "pure-img-responsive", src: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + id + ".png" }));
+        function getpokethumb() {
+            return appendCh(createEl("div", {className: "poke-thumb pure-u-1-2 " + (pokemon.types[1] || pokemon.types[0])}), createEl("img", {className: "pure-img-responsive", src: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + pokemon.id + ".png"}));
         }
 
         // createElement - fujj, hogy beleegetett szar cl meg src....de most jo ide
