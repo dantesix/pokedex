@@ -84,15 +84,14 @@ body {
   opacity: 0;
   visibility: hidden;
   background-color: white;
-  transition:visibility 0s linear 0.5s,opacity 0.5s linear;
+  transition:visibility 0s linear 0.3s,opacity 0.3s linear;
 }
 
 .pokemon-details-background.fadein {
   opacity: 0.6;
   visibility: visible;
-  transition: opacity 0.5s linear;
-}
-
+  transition: opacity 0.3s linear;
+  }
 
 /* Color for Types */
 .Normal {background-color: #A8A77A}
