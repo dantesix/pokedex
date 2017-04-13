@@ -12,7 +12,6 @@ function parseJSON(response) {
 
     pokeDex.init = function () {
         pokeDex.getInitialData();
-        pokeDex.assignPagerEvents();
     };
 
     pokeDex.getInitialData = function () {
@@ -92,13 +91,6 @@ function parseJSON(response) {
     pokeDex.default = {
         pageSize: 10 // how many pokemons on one page
     };
-    
-    pokeDex.assignPagerEvents = function () {
-        document.getElementById("nextPage").addEventListener("click", pokeDex.nextPage);
-        document.getElementById("prevPage").addEventListener("click", pokeDex.prevPage);
-        document.getElementById("firstPage").addEventListener("click", pokeDex.firstPage);
-        document.getElementById("lastPage").addEventListener("click", pokeDex.lastPage);
-    };
 
     // Rendering :)
     pokeDex.render = {};
@@ -108,21 +100,63 @@ function parseJSON(response) {
         pokeDex.currentPokemonList = filteredList || Object.keys(pokeDex.pokemonList).map(key => pokeDex.pokemonList[key]);
         pokeDex.render.pageSize = pokeDex.default.pageSize;
         pokeDex.render.currentPage = 0;
+        pokeDex.render.drawPager();
         pokeDex.render.drawPage();
     };
 
+    pokeDex.render.drawPager = function () {
+        function addLi(callback) {
+            var li = document.createElement("li");
+            var evnt = callback;
+            li.innerHTML = "<a href='#' onclick='return false;'></a>";
+            li.addEventListener("click", function () {
+                evnt();
+            });
+            pager.appendChild(li);
+        }
+
+        var pager = document.getElementById("pokeDexPager");
+        while (pager.firstChild) {
+            pager.removeChild(pager.firstChild);
+        }
+        
+        var maxpage = Math.floor(pokeDex.currentPokemonList.length/pokeDex.render.pageSize);
+        addLi(pokeDex.render.prevPage);
+        for (var i = 0; i < maxpage; i++) {
+            let pagenumber = i;
+            addLi(function () {pokeDex.render.jumpPage(pagenumber)});
+        }
+        addLi(pokeDex.render.nextPage);
+        pager.getElementsByTagName("li")[1].className = "active";
+    };
+
+    pokeDex.render.refreshActivePager = function (p) {
+        document.getElementById("pokeDexPager").getElementsByTagName("li")[pokeDex.render.currentPage+1].className = p;
+    };
+
+    pokeDex.render.jumpPage = function (page) {
+        pokeDex.render.refreshActivePager("");
+        pokeDex.render.currentPage = page;
+        pokeDex.render.drawPage();
+        pokeDex.render.refreshActivePager("active");
+    };
+
     pokeDex.render.nextPage = function () {
+        pokeDex.render.refreshActivePager("");
         var nextPage = pokeDex.render.currentPage + 1;
         if (pokeDex.currentPokemonList.length - nextPage * pokeDex.render.pageSize < 0) return;
         pokeDex.render.currentPage = nextPage;
         pokeDex.render.drawPage();
+        pokeDex.render.refreshActivePager("active");
     };
 
     pokeDex.render.prevPage = function () {
+        pokeDex.render.refreshActivePager("");
         var nextPage = pokeDex.render.currentPage -1;
         if (nextPage < 0) return;
         pokeDex.render.currentPage = nextPage;
         pokeDex.render.drawPage();
+        pokeDex.render.refreshActivePager("active");
     };
 
     pokeDex.render.firstPage = function () {
