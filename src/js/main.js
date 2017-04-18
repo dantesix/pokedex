@@ -18,7 +18,7 @@ function parseJSON(response) {
         fetch('https://pokeapi.co/api/v2/type/')
             .then(parseJSON)
             .then(function (data) {
-                var typeLoadDone = data.results.map((pokemonType) => {
+                Promise.all(data.results.map((pokemonType) => {
                     return new Promise((resolve) => {
                         fetch(pokemonType.url)
                             .then(parseJSON)
@@ -27,8 +27,10 @@ function parseJSON(response) {
                             })
                             .then(resolve);
                     });
+                })).then(function () {
+                    pokeDex.render.init();
+                    pokeDex.filtering.initFilters();
                 });
-                Promise.all(typeLoadDone).then(function () { pokeDex.render.init() });
             });
     };
 
@@ -296,4 +298,4 @@ function parseJSON(response) {
 
 }(window.pokeDex = window.pokeDex || {}));
 
-pokeDex.getInitialData();
+pokeDex.init();
